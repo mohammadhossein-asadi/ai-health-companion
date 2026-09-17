@@ -7,7 +7,11 @@
 A full-stack health monitoring platform that lets you log 10 health metrics, visualize trends through interactive charts, and receive AI-generated health insights — all backed by Prisma, NextAuth, and OpenAI.
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Coming_Soon-0a0a0a?style=for-the-badge&labelColor=0a0a0a&color=3b82f6)](#)
-[![License: MIT](https://img.shields.io/badge/License-MIT-0a0a0a?style=for-the-badge&labelColor=0a0a0a&color=22c55e)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-0a0a0a?style=for-the-badge&labelColor=0a0a0a&color=22c55e)](LICENSE)
+[![Next.js 16](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma_6-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
 
 </div>
 
@@ -31,6 +35,7 @@ AI Health Companion is a personal health dashboard that transforms raw health da
 | **AI Insights Panel** | Dedicated panel displaying AI-generated health recommendations and pattern analysis |
 | **Profile Management** | User profile page with personal health data overview |
 | **Responsive Design** | Mobile-first layout built with Tailwind CSS |
+| **Dark/Light Theme** | System-aware theme switching |
 
 ---
 
@@ -174,15 +179,36 @@ The `/api/analyze-health/stream` endpoint uses `ReadableStream` to deliver AI-ge
 
 ---
 
-## Author
+## Key Architecture Decisions
 
-**Mohammadhossein Asadi** — Frontend & Full-Stack Engineer
+### Prisma + SQLite for Zero-Config Persistence
+SQLite requires no separate database server — perfect for local development and small deployments. Prisma provides type-safe database access with auto-generated client.
 
-[![GitHub](https://img.shields.io/badge/GitHub-mohammadhossein--asadi-0a0a0a?style=flat-square&logo=github)](https://github.com/mohammadhossein-asadi)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-mohammadhossein--asadi-0a66c2?style=flat-square&logo=linkedin)](https://linkedin.com/in/mohammadhossein-asadi)
+### NextAuth.js Credentials Provider
+Custom credentials authentication with bcrypt password hashing. Middleware protects all routes under `/log`, `/profile`, and `/api/health-data`.
+
+### Streaming AI via SSE
+The `/api/analyze-health/stream` endpoint uses a `ReadableStream` with a custom encoder to deliver token-by-token AI responses, enabling real-time UI updates without WebSockets.
+
+### Modular Health Modules
+Each of the 10 health metrics is a self-contained component with its own input form, validation, and chart type — making it easy to add new metrics.
+
+### Zustand for Client State
+Lightweight state management for dashboard layout, active module, and AI insights panel — no Context API overhead.
 
 ---
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**Mohammadhossein Asadi** — Frontend & Full-Stack Engineer
+
+[![GitHub](https://img.shields.io/badge/GitHub-mohammadhossein--asadi-0a0a0a?style=flat-square&logo=github)](https://github.com/mohammadhossein-asadi)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-mohammadhossein--asadi-0a66c2?style=flat-square&logo=linkedin)](https://linkedin.com/in/mohammadhossein-asadi)
+
+</div>
